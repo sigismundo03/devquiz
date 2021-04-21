@@ -1,5 +1,6 @@
 
 
+import 'package:DevQuiz/challenge/challenge.dart';
 import 'package:DevQuiz/home/home_page.dart';
 // import 'package:DevQuiz/splash/splash_page.dart';
 
@@ -11,7 +12,7 @@ class AppWidget extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false, 
       title: "DevQuiz",
-       home: HomePage(),
+       home: ChallengePage(),
     );
   }
 }
