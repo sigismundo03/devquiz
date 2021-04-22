@@ -1,5 +1,7 @@
 
 import 'package:DevQuiz/challenge/widgets/quiz/quiz_widget.dart';
+import 'package:DevQuiz/core/core.dart';
+import 'package:DevQuiz/home/home_state.dart';
 import 'package:DevQuiz/home/widgets/quizcard/quiz_card_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -24,10 +26,16 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     controller.getUser();
     controller.getQuizzes();
+    controller.stateNotifier.addListener(() { 
+      setState(() {
+        
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    if(controller.state == HomeState.succes ){
     return Scaffold(
       appBar: AppBarWidget(user: controller.user!,),
       body: Padding(
@@ -73,5 +81,14 @@ class _HomePageState extends State<HomePage> {
       ),
       
     );
+    }else{
+      return Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(AppColors.darkGreen),
+          ),
+        ),
+      );
+    }
   }
 }

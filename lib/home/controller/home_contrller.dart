@@ -3,13 +3,17 @@ import 'package:DevQuiz/shared/models/awnsers_model.dart';
 import 'package:DevQuiz/shared/models/question_model.dart';
 import 'package:DevQuiz/shared/models/quiz_model.dart';
 import 'package:DevQuiz/shared/models/user_model.dart';
+import 'package:flutter/cupertino.dart';
 
 import '../home_state.dart';
 
 class HomeController {
-  HomeState state = HomeState.empty;
+  ValueNotifier stateNotifier = ValueNotifier<HomeState>(HomeState.empty);
   UserModel? user;
   List<QuizModel>? quiz;
+
+  set state( HomeState value) =>  stateNotifier.value = value;
+  HomeState get state => stateNotifier.value;
 
   void getUser()  async{
     state = HomeState.loading;
@@ -43,6 +47,15 @@ class HomeController {
             ],
           ),
            QuestionModel(
+            title: 'Está curtindo Flutter ?',
+            awnsers: [
+              AwnsersModel(title: "Estou curtindo "),
+              AwnsersModel(title: "Amando Flutter "),
+              AwnsersModel(title: "Muito Top "),
+              AwnsersModel(title: "Show de Bola!", isRigth: true),
+            ],
+          ),
+              QuestionModel(
             title: 'Está curtindo Flutter ?',
             awnsers: [
               AwnsersModel(title: "Estou curtindo "),
