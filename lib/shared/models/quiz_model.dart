@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'question_model.dart';
 
 enum Level {
@@ -5,6 +7,24 @@ enum Level {
   medio,
   dificil,
   perito,
+}
+
+extension LeveStringExten on String {
+  Level get parse => {
+        "facil": Level.facil,
+        "medio": Level.medio,
+        "dificil": Level.dificil,
+        "perito": Level.perito,
+      }[this]!;
+}
+
+extension LeveExten on Level {
+  String get parse => {
+        Level.facil: "facil",
+        Level.medio: "medio",
+        Level.dificil: "dificil",
+        Level.perito: "perito",
+      }[this]!;
 }
 
 class QuizModel {
@@ -20,4 +40,30 @@ class QuizModel {
     required this.imagem,
     required this.level,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'title': title,
+      'questions': questions.map((x) => x.toMap()).toList(),
+      'questionAnswered': questionAnswered,
+      'imagem': imagem,
+      'level': level.parse,
+    };
+  }
+
+  factory QuizModel.fromMap(Map<String, dynamic> map) {
+    return QuizModel(
+      title: map['title'],
+      questions: List<QuestionModel>.from(
+          map['questions']?.map((x) => QuestionModel.fromMap(x))),
+      questionAnswered: map['questionAnswered'],
+      imagem: map['imagem'],
+      level: map['level'].toString().parse,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory QuizModel.fromJson(String source) =>
+      QuizModel.fromMap(json.decode(source));
 }
