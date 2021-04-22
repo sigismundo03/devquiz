@@ -1,9 +1,11 @@
 
+import 'package:DevQuiz/challenge/widgets/quiz/quiz_widget.dart';
+import 'package:DevQuiz/home/widgets/quizcard/quiz_card_widget.dart';
 import 'package:flutter/material.dart';
 
+import 'controller/home_contrller.dart';
 import 'widgets/apparbar/app_bar_widget.dart';
 import 'widgets/levelbutton/level_button_widget.dart';
-import 'widgets/quizcard/quiz_card_widget.dart';
 
 class HomePage extends StatefulWidget {
   
@@ -14,10 +16,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  final controller = HomeController();
+  
+  @override
+  void initState() { 
+    super.initState();
+    controller.getUser();
+    controller.getQuizzes();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarWidget(),
+      appBar: AppBarWidget(user: controller.user!,),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 02),
         child: Column(
@@ -47,12 +59,13 @@ class _HomePageState extends State<HomePage> {
                 mainAxisSpacing: 12,
                 crossAxisCount: 2,
                 
-                children: [
-                  QuizCardWidget(),
-                  QuizCardWidget(),
-                   QuizCardWidget(),
-                  QuizCardWidget(),
-                ],
+                children: controller.quiz!.map((e) => QuizCardWidget(
+                  title: e.title,
+                  completed: "${e.questionAnswered}/${e.questions.length}",
+                  percent: e.questionAnswered/e.questions.length,
+
+                )
+                ).toList(),
               ),
             ),
           ],
