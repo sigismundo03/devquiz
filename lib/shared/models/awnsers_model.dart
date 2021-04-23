@@ -19,7 +19,7 @@ class AwnsersModel {
   factory AwnsersModel.fromMap(Map<String, dynamic> map) {
     return AwnsersModel(
       title: map['title'],
-      isRigth: map['isRigth'],
+      isRigth: map['isRigth'] ?? false,
     );
   }
 
